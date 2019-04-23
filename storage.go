@@ -138,6 +138,10 @@ func (s *StorageService) GetRequest(requestID string) (*Request, error) {
 	return &request, nil
 }
 
+func (s *StorageService) SaveOutgoingRequestWithPrefix(prefix string, requestID string, request Request) error {
+	return s.SaveOutgoingRequest(prefix+"_"+requestID, request)
+}
+
 func (s *StorageService) SaveOutgoingRequest(requestID string, request Request) error {
 	db := s.redis.Get()
 	defer func() {
