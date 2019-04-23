@@ -80,6 +80,10 @@ func (r *Request) FromGOB64(str string) {
 	}
 }
 
+func (s *StorageService) SaveIncomingRequestWithPrefix(prefix string, requestID string, request Request) error {
+	return s.SaveIncomingRequest(prefix+"_"+requestID, request)
+}
+
 func (s *StorageService) SaveIncomingRequest(requestID string, request Request) error {
 	db := s.redis.Get()
 	defer func() {
@@ -102,6 +106,10 @@ func (s *StorageService) SaveIncomingRequest(requestID string, request Request) 
 	}
 
 	return nil
+}
+
+func (s *StorageService) GetRequestWithPrefix(prefix string, requestID string) (*Request, error) {
+	return s.GetRequest(prefix + "_" + requestID)
 }
 
 func (s *StorageService) GetRequest(requestID string) (*Request, error) {
