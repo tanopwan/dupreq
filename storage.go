@@ -17,12 +17,12 @@ const prefix = "ref_so_"
 
 func GetNewRedisPool() *redis.Pool {
 	host := os.Getenv("REDIS_HOST")
-	log.Println("getting redis pool from ", host)
+	password := os.Getenv("REDIS_PASSWORD")
 	redisPool := &redis.Pool{
 		MaxIdle:     2,
 		IdleTimeout: 60 * time.Minute,
 		Dial: func() (redis.Conn, error) {
-			return redis.Dial("tcp", host+":6379")
+			return redis.Dial("tcp", host+":6379", redis.DialPassword(password))
 		},
 		TestOnBorrow: func(c redis.Conn, t time.Time) error {
 			if time.Since(t) > time.Minute {
