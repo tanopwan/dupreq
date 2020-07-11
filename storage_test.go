@@ -102,7 +102,7 @@ func TestSaveRequestDup(t *testing.T) {
 	if err == nil {
 		t.Errorf("test fail to save incomming request: should be error\n")
 	}
-	t.Logf("expected error: %s\n", err.Error())
+	t.Logf("expected error: nil\n")
 }
 
 func TestSaveAndUpdateRequest(t *testing.T) {
