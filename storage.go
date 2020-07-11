@@ -99,11 +99,25 @@ func (s *StorageService) SaveIncomingRequest(requestID string, request Request) 
 	}
 
 	fmt.Printf("[SaveIncomingRequest] reply: %+v, %s\n", reply, reflect.TypeOf(reply))
+	switch t := reply.(type){
+	case int64:
 	r, ok := reply.(int64)
 	if !ok || r == 0 {
 		// already exists
-		return errors.New("key already exists")
+			return errors.New(fmt.Sprintf("key already exists: ok: %v, r: %d", ok, r))
+		}
+	case string:
+		r, ok := reply.(string)
+		if !ok || r == "0" {
+			// already exists
+			return errors.New(fmt.Sprintf("key already exists: ok: %v, r: %s", ok, r))
 	}
+	default:
+		return errors.New(fmt.Sprintf("unknown type %v", t))
+	}
+
+
+
 
 	return nil
 }
